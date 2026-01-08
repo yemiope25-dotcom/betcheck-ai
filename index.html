@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BetCheck AI</title>
+</head>
+<body>
+  <h2>BetCheck AI</h2>
+  <p>Paste your bet slip below</p>
+
+  <textarea id="slip" rows="10" cols="50" placeholder="Paste bet slip here"></textarea><br><br>
+  <button onclick="analyze()">Analyze</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function analyze() {
+      document.getElementById("result").innerText = "Analyzing...";
+      const slip = document.getElementById("slip").value;
+
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slip })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerText = data.result;
+    }
+  </script>
+</body>
+</html>
